@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:include="console/header">
+</head>
+<body>
+<section class="content-header">
+    <h1>资源管理</h1>
+    <small>资源列表</small>
+</section>
+<section class="content table-content">
+    <a href="/console/menu/from" class="btn btn-primary" >添加一级菜单</a>
+    <table class="table table-bordered" id="dataGrid">
+        <tr>
+            <th>菜单名称</th>
+            <th>权限标识</th>
+            <th>菜单URL</th>
+            <th>菜单类型</th>
+            <th>排序</th>
+            <th>创建时间</th>
+            <th>更新日期</th>
+            <th>操作</th>
+        </tr>
+        <tr th:id="${menu.menuId}" th:each="menu,menuStat:${menus}" th:class="${#strings.equals(menu.parentId,'0')?'treegrid-'+menu.menuId : 'treegrid-'+menu.menuId+' treegrid-parent-'+menu.parentId} ">
+            <td th:text="${menu.menuName}"></td>
+            <td th:text="${menu.menuCode}"></td>
+            <td th:text="${menu.menuUrl}"></td>
+            <td th:text="${menu.menuType}"></td>
+            <td><input type="text" th:attr="data-id=${menu.menuId}" name="listorder" th:value="${menu.listorder}" /></td>
+            <td th:text="${menu.createdAt}"></td>
+            <td th:text="${menu.updatedAt}"></td>
+            <td>
+                <a th:href="${'/console/menu/from?parentId='+menu.menuId}" ><i class="glyphicon glyphicon-add"></i>添加子菜单</a>
+                <a th:href="${'/console/menu/from?menuId='+menu.menuId}" ><i class="glyphicon glyphicon-edit"></i>修改</a>
+                <a class="remove" th:attr="data-id=${menu.menuId}" href="javascript:void(0);"><i class="glyphicon glyphicon-remove"></i>删除</a></td>
+        </tr>
+    </table>
+</section>
+
+<div th:include="console/footer"></div>
+
+<script type="text/javascript" src="/static/js/menu.js"></script>
+
+</body>
+</html>
